@@ -189,6 +189,7 @@ function main {
     checkYesNo "A reboot is highly recommended, would you like to reboot?"
     if [ $YesNo -eq 1 ]; then
         sudo reboot now
+    fi
 }
 
 main
