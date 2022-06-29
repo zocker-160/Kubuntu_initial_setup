@@ -139,24 +139,37 @@ function installBrowser {
     heading2 "Installing Browser"
     
     choice=`kdialog --radiolist "What Browser would you like to use?" \
-        1 "Firefox (apt)" on \
-        2 "Chromium (apt)" off \
-        3 "Brave (apt)" off \
-        4 "Ungoogled-Chromium (Flatpak)" off`
+        1 "Firefox (PPA)" on \
+        2 "Firefox (apt)" off \
+        3 "Chromium (apt)" off \
+        4 "Brave (apt)" off \
+        5 "Ungoogled-Chromium (Flatpak)" off`
     
     if [ $? -eq 0 ]; then
         case $choice in
             1)
-            heading2 "Installing Firefox"
+            heading2 "Installing Firefox (PPA)"
+            sudo add-apt-repository ppa:mozillateam/ppa -y
+            
+            echo """Package: firefox*
+            Pin: release o=LP-PPA-mozillateam
+            Pin-Priority: 501
+            """ >> /etc/apt/preferences.d/mozillateamppa
+            
+            sudo apt update
+            sudo apt install -t 'o=LP-PPA-mozillateam' firefox -y
+            ;;
+            2)
+            heading2 "Installing Firefox (apt)"
             _installTuxedoAptRepo
             sudo apt install firefox -y
             ;;
-            2)
+            3)
             heading2 "Installing Chromium"
             _installTuxedoAptRepo
             sudo apt install chromium-browser -y
             ;;
-            3)
+            4)
             heading2 "Installing Brave"
             # from https://brave.com/linux/#release-channel-installation
             sudo apt install apt-transport-https curl
@@ -166,7 +179,7 @@ function installBrowser {
             sudo apt update
             sudo apt install brave-browser
             ;;
-            4)
+            5)
             heading2 "Installing Ungoogled-Chromium"
             flatpak install flathub com.github.Eloston.UngoogledChromium
             ;;
