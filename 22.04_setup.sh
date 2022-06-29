@@ -69,6 +69,18 @@ function nukeFuckingSnapBullshit {
     heading2 "Removing Snap and Discover integration"
     
     sudo apt purge snapd plasma-discover-backend-snap -y
+    
+    checkYesNo "Would you like to freeze snap to be never installed again?"
+    
+    if [ $YesNo -eq 1 ]; then
+        heading2 "Sending snap to hell"
+        # make sure snap goes to hell and we never see it ever again
+        # thanks to https://www.debugpoint.com/remove-snap-ubuntu/
+        echo """Package: snapd
+        Pin: release a=*
+        Pin-Priority: -10
+        """ >> /etc/apt/preferences.d/nosnap.pref
+    fi
 }
 
 function installFlatpak {
