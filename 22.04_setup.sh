@@ -78,8 +78,8 @@ function nukeFuckingSnapBullshit {
         # make sure snap goes to hell and we never see it ever again
         # thanks to https://www.debugpoint.com/remove-snap-ubuntu/
         echo """Package: snapd
-        Pin: release a=*
-        Pin-Priority: -10""" | sudo tee /etc/apt/preferences.d/nosnap.pref
+Pin: release a=*
+Pin-Priority: -10""" | sudo tee /etc/apt/preferences.d/nosnap.pref
     fi
 }
 
@@ -152,8 +152,8 @@ function installBrowser {
             sudo add-apt-repository ppa:mozillateam/ppa -y
             
             echo """Package: firefox* thunderbird*
-            Pin: release o=LP-PPA-mozillateam
-            Pin-Priority: 501""" | sudo tee /etc/apt/preferences.d/mozillateamppa
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 501""" | sudo tee /etc/apt/preferences.d/mozillateamppa.pref
             
             sudo apt update
             sudo apt install -t 'o=LP-PPA-mozillateam' firefox -y
