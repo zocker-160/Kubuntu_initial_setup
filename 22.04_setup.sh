@@ -55,7 +55,7 @@ function installUpdates {
     
     sudo apt update
     sudo apt dist-upgrade -y
-    sudo apt install wget curl -y
+    sudo apt install wget curl tee -y
 }
 
 function cleanupPackages {
@@ -70,6 +70,7 @@ function nukeFuckingSnapBullshit {
     
     sudo apt purge snapd plasma-discover-backend-snap -y
     
+    echo ""
     checkYesNo "Would you like to freeze snap to be never installed again?"
     
     if [ $YesNo -eq 1 ]; then
@@ -78,8 +79,7 @@ function nukeFuckingSnapBullshit {
         # thanks to https://www.debugpoint.com/remove-snap-ubuntu/
         echo """Package: snapd
         Pin: release a=*
-        Pin-Priority: -10
-        """ >> /etc/apt/preferences.d/nosnap.pref
+        Pin-Priority: -10""" | sudo tee /etc/apt/preferences.d/nosnap.pref
     fi
 }
 
@@ -151,10 +151,9 @@ function installBrowser {
             heading2 "Installing Firefox (PPA)"
             sudo add-apt-repository ppa:mozillateam/ppa -y
             
-            echo """Package: firefox*
+            echo """Package: firefox* thunderbird*
             Pin: release o=LP-PPA-mozillateam
-            Pin-Priority: 501
-            """ >> /etc/apt/preferences.d/mozillateamppa
+            Pin-Priority: 501""" | sudo tee /etc/apt/preferences.d/mozillateamppa
             
             sudo apt update
             sudo apt install -t 'o=LP-PPA-mozillateam' firefox -y
