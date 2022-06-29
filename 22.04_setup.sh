@@ -58,6 +58,13 @@ function installUpdates {
     sudo apt install wget curl tee -y
 }
 
+function installUpdatesEnd {
+    heading2 "Updating the system once again"
+    
+    sudo apt update
+    sudo apt dist-upgrade -y
+}
+
 function cleanupPackages {
     heading2 "Cleaning up"
     
@@ -206,6 +213,8 @@ function main {
     installFlatseal
     installAppimageLauncher
     installBrowser
+    
+    installUpdatesEnd
     cleanupPackages
     
     heading2 "Setup Done!"
